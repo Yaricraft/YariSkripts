@@ -1,0 +1,14 @@
+on mine of sugar cane:
+	set {_sugar} to 1
+	loop blocks above block:
+		if loop-block is air:
+			stop loop
+		if loop-block is sugar cane:
+			add 1 to {_sugar}
+	loop blocks below block:
+		if the loop-block is lapis lazuli block:
+			loop {_sugar} times:
+				chance of 5%:
+					drop 1 sugar with name "&bMagic Sugar"
+		if the block above loop-block is dirt or stone or sand or grass:
+			stop loop

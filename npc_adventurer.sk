@@ -1,0 +1,23 @@
+on load:
+	set {_name} to "adventurer"
+	if {npc.%{_name}%.prefix} is not set:
+		set {npc.%{_name}%.prefix} to "&2[Adventurer]&f:"
+	if {npc.%{_name}%.msgs.hand::*} is empty:
+		add "%{npc.%{_name}%.prefix}% I am an Adventurer!" to {npc.%{_name}%.msgs.hand::*}
+		add "%{npc.%{_name}%.prefix}% I am strong!" to {npc.%{_name}%.msgs.hand::*}
+		add "%{npc.%{_name}%.prefix}% I get all the ladies!" to {npc.%{_name}%.msgs.hand::*}
+on citizen right click:
+	set {_name} to "adventurer"
+	if citizen name is "Adventurer":
+		if tool is hand:
+			set {_msg} to random element out of {npc.%{_name}%.msgs.hand::*}
+			message "%{_msg}%"
+on chat:
+	set {_name} to "adventurer"
+	if message contains "hi" or "hey" or "hello" or "sup" or "heyy":
+		loop entities in radius 6 around player:
+			if name of citizen citizen id of loop-value is {_name}:
+				cancel event
+				message "&a[YOU]&f: %message%"
+				wait 1 tick
+				message "%{npc.%{_name}%.prefix}% Hello there, traveler!"

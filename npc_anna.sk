@@ -1,0 +1,40 @@
+on load:
+	set {_name} to "anna"
+	if {npc.%{_name}%.prefix} is not set:
+		set {npc.%{_name}%.prefix} to "&2[Anna]&f:"
+	if {npc.%{_name}%.msgs.notouch::*} is not set:
+		add "%{npc.%{_name}%.prefix}% Don't touch me, please." to {npc.%{_name}%.msgs.notouch::*}
+		add "%{npc.%{_name}%.prefix}% Hey, give me space." to {npc.%{_name}%.msgs.notouch::*}
+		add "%{npc.%{_name}%.prefix}% Stop, please." to {npc.%{_name}%.msgs.notouch::*}
+		add "%{npc.%{_name}%.prefix}% No touching." to {npc.%{_name}%.msgs.notouch::*}
+	if {npc.%{_name}%.msgs.nogive::*} is not set:
+		add "%{npc.%{_name}%.prefix}% No thanks, you need it more than me." to {npc.%{_name}%.msgs.nogive::*}
+		add "%{npc.%{_name}%.prefix}% You can keep that." to {npc.%{_name}%.msgs.nogive::*}
+		add "%{npc.%{_name}%.prefix}% I don't need that." to {npc.%{_name}%.msgs.nogive::*}
+		add "%{npc.%{_name}%.prefix}% Thank you, but I don't want it." to {npc.%{_name}%.msgs.nogive::*}
+on login:
+	set {npc.anna.player.%player%.dialog.notouch.times} to 0
+on citizen right click:
+	set {_name} to "anna"
+	if citizen name is "Anna":
+		if tool is hand:
+			set {_msg} to random element out of {npc.%{_name}%.msgs.notouch::*}
+			message "%{_msg}%"
+			add 1 to {npc.%{_name}%.player.%player%.dialog.notouch.times}
+			if {npc.%{_name}%.player.%player%.dialog.notouch.times} is greater than 20:
+				kill player
+				broadcast "%player% was killed by &bAnna&f."
+				set {npc.%{_name}%.player.%player%.dialog.notouch.times} to 0
+			stop
+		subtract 1 from {npc.%{_name}%.player.%player%.dialog.notouch.times}
+		set {_msg} to random element out of {npc.%{_name}%.msgs.nogive::*}
+		message "%{_msg}%"
+on chat:
+	set {_name} to "anna"
+	if message contains "hi" or "hey" or "hello" or "sup" or "heyy":
+		loop entities in radius 6 around player:
+			if name of citizen citizen id of loop-value is {_name}:
+				cancel event
+				message "&a[YOU]&f: %message%"
+				wait 1 tick
+				message "%{npc.%{_name}%.prefix}% Hello! I'm Anna!"
