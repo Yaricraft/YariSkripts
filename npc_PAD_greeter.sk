@@ -1,3 +1,7 @@
+on load:
+	set {_name} to "Greeter"
+	if {npc.%{_name}%.prefix} is not set:
+		set {npc.%{_name}%.prefix} to "&b[Greeter]&f:"
 on chat:
 	set {_name} to "Greeter"
 	if message contains "hi" or "hey" or "hello" or "sup" or "heyy" or "help":
