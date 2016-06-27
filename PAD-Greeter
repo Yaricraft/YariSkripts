@@ -1,0 +1,7 @@
+on chat:
+	set {_name} to "Greeter"
+	if message contains "hi" or "hey" or "hello" or "sup" or "heyy" or "help":
+		loop entities in radius 6 around player:
+			if name of citizen citizen id of loop-value is {_name}:
+				wait 1 tick
+				message "%{npc.%{_name}%.prefix}% Welcome to Padra!"
